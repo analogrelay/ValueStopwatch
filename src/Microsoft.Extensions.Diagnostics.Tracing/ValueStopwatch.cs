@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Microsoft.Extensions.Diagnostics.Timing
+namespace Microsoft.Extensions.Diagnostics.Tracing
 {
     public struct ValueStopwatch
     {
@@ -11,18 +11,23 @@ namespace Microsoft.Extensions.Diagnostics.Timing
         private long _endTimestamp;
         private long _startTimestamp;
 
-        public bool Enabled => _enabled;
         public TimeSpan Elapsed => ComputeElapsedTime();
+        public bool Enabled => _enabled;
 
         private ValueStopwatch(long startTimestamp)
         {
             _enabled = true;
             _endTimestamp = 0;
-            _startTimestamp = 0;
+            _startTimestamp = startTimestamp;
         }
 
         public void Stop()
         {
+            if(_startTimestamp == 0)
+            {
+                throw new InvalidOperationException("An uninitialized, or 'default', ValueStopwatch cannot be used");
+            }
+
             _endTimestamp = Stopwatch.GetTimestamp();
             _enabled = false;
         }
@@ -31,10 +36,23 @@ namespace Microsoft.Extensions.Diagnostics.Timing
 
         private TimeSpan ComputeElapsedTime()
         {
+            if(_startTimestamp == 0)
+            {
+                throw new InvalidOperationException("An uninitialized, or 'default', ValueStopwatch cannot be used");
+            }
+
             var end = _endTimestamp == 0 ? Stopwatch.GetTimestamp() : _endTimestamp;
             var timestampDelta = end - _startTimestamp;
             var ticks = (long)(TimestampToTicks * timestampDelta);
             return new TimeSpan(ticks);
+        }
+
+        private enum State
+        {
+            // This will be the default value, as in default(ValueStopwatch)
+            Uninitialized = 0,
+            Initialized = 1,
+            Stopped = 2
         }
     }
 }

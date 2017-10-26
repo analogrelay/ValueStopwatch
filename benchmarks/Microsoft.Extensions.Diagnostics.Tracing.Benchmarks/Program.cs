@@ -1,7 +1,7 @@
 using System;
 using BenchmarkDotNet.Running;
 
-namespace Microsoft.Extensions.Diagnostics.Timing.Benchmarks
+namespace Microsoft.Extensions.Diagnostics.Tracing.Benchmarks
 {
     class Program
     {

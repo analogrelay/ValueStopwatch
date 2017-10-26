@@ -1,9 +1,8 @@
 using System;
 using System.Diagnostics;
 using BenchmarkDotNet.Attributes;
-using Microsoft.Extensions.Diagnostics.Timing;
 
-namespace Microsoft.Extensions.Diagnostics.Timing.Benchmarks
+namespace Microsoft.Extensions.Diagnostics.Tracing.Benchmarks
 {
     public class ValueStopwatchBenchmarks
     {

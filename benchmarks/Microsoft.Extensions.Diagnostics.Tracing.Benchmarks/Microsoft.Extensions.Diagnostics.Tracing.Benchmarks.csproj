@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Microsoft.Extensions.Diagnostics.Timing\Microsoft.Extensions.Diagnostics.Timing.csproj" />
+    <ProjectReference Include="..\..\src\Microsoft.Extensions.Diagnostics.Tracing\Microsoft.Extensions.Diagnostics.Tracing.csproj" />
   </ItemGroup>
 
 </Project>

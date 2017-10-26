@@ -79,11 +79,17 @@ namespace Microsoft.Extensions.Diagnostics.Tracing.Benchmarks
     {
         public static readonly BenchmarkTestEventSource Log = new BenchmarkTestEventSource();
 
-        private BenchmarkTestEventSource() { }
+        private EventCounter _counter;
+
+        private BenchmarkTestEventSource()
+        {
+            _counter = new EventCounter("Counter", this);
+        }
 
         [Event(eventId: 1, Level = EventLevel.Verbose)]
         public void Event()
         {
+            _counter.WriteMetric(1.0f);
             if (IsEnabled(EventLevel.Verbose, EventKeywords.None))
             {
                 WriteEvent(1);
